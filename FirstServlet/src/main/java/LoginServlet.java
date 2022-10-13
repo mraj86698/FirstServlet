@@ -35,11 +35,15 @@ public class LoginServlet extends HttpServlet {
 		//get servlet config init params
 		String userID = getServletConfig().getInitParameter("User");
 		String password = getServletConfig().getInitParameter("Pass");
+		//Username Regex Patter
+		String nameRegex = "^[A-Z]{1}.{2,}$";
 
-
-		if(username.equals(userID) && pass.equals(password)) {
-			request.setAttribute("User Name", username);
-			request.getRequestDispatcher("LoginSuccess.jsp").forward(request, response);
+		//Username Regex
+		if (!username.matches(nameRegex)) {
+			RequestDispatcher req = getServletContext().getRequestDispatcher("/login.html");
+			PrintWriter out = response.getWriter();
+			out.println("<font color=red>Kindly Enter Correct USERNAME</font>");
+			req.include(request, response);
 		}
 		else {
 			RequestDispatcher reqD = getServletContext().getRequestDispatcher("/login.html");
